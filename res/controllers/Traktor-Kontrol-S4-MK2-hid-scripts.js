@@ -774,20 +774,19 @@ TraktorS4MK2.debugLights = function() {
 };
 
 TraktorS4MK2.shutdown = function() {
-    var packet_lengths = [53, 63, 61];
-    for (i = 0; i < packet_lengths.length; i++) {
-        var packet_length = packet_lengths[i];
-        var data = Object();
-        data.length = packet_length;
+    const packet_lengths = [53, 63, 61];
+    for (let i = 0; i < packet_lengths.length; i++) {
+        const data = [];
+        data.length = packet_lengths[i];
         data[0] = 0x80 + i;
-        for (j = 1; j < packet_length; j++) {
+        for (j = 1; j < data.length; j++) {
             data[j] = 0;
         }
         // Keep USB light on though.
         if (i === 0) {
             data[0x2A] = 0x7F;
         }
-        controller.send(data, packet_length, 0);
+        controller.send(data, data.length, 0);
     }
 };
 
